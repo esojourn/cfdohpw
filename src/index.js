@@ -1,6 +1,6 @@
 // 请求路径。请修改此路径，避免该 worker 所有人都能使用。
 const endpointPath = '/dns-query';
-// 上游 DoH 地址。必需是域名，不能是 IP。Cloudflare 有限制。
+// 上游 DoH 地址。必需是域名,不能是 IP。Cloudflare 有限制。
 const upstream = 'https://dns.google/dns-query';
 
 /**
@@ -8,7 +8,7 @@ const upstream = 'https://dns.google/dns-query';
  * @param {URL} clientUrl
  */
 async function handleRequestGet(request, clientUrl) {
-  const dnsValue = clientUrl.searchParams.get('dns')
+  const dnsValue = clientUrl.searchParams.get('dns');
 
   if (dnsValue == null) {
     return new Response('missing parameters', { status: 400 });
@@ -24,7 +24,7 @@ async function handleRequestGet(request, clientUrl) {
     headers: request.headers,
     method: 'GET',
   });
-  upstreamRequest.headers.set('host', upstreamUrl.hostname)
+  upstreamRequest.headers.set('host', upstreamUrl.hostname);
   return await fetch(upstreamRequest);
 }
 
@@ -58,14 +58,17 @@ async function handleRequest(request) {
 
   switch (request.method) {
     case 'GET':
-      return handleRequestGet(request, clientUrl)
+      return handleRequestGet(request, clientUrl);
     case 'POST':
-      return handleRequestPost(request, clientUrl)
+      return handleRequestPost(request, clientUrl);
     default:
       return new Response('method not allowed', { status: 405 });
   }
 }
 
-addEventListener('fetch', event => {
-  event.respondWith(handleRequest(event.request));
-});
+// 使用 ES modules 格式导出
+export default {
+  async fetch(request, env, ctx) {
+    return handleRequest(request);
+  },
+};

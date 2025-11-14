@@ -1,0 +1,9 @@
+name = "doh-proxy"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+# 如果需要自定义域名，取消注释并修改
+# routes = [
+#   { pattern = "your-domain.com/*", zone_name = "your-domain.com" }
+# ]
+
